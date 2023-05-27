@@ -37,11 +37,13 @@ explosion_group = pygame.sprite.Group()
 
 
 # # stormhead
-# stormhead_run_images = spritesheet.spritesheet('stormhead/run.png').load_strip_vert((0, 0, 119, 124), 10, -1)
-# stormhead = Stormhead(lv_images)
-#
-# enemy_group = pygame.sprite.Group()
-# enemy_group.add(stormhead)
+# stormhead_run_images = Spritesheet('stormhead/run.png').load_strip_vert((0, 0, 119, 124), 10, -1)
+# stormhead = Stormhead(stormhead_run_images)
+
+baddie = Stormhead()
+
+enemy_group = pygame.sprite.Group()
+enemy_group.add(baddie)
 
 
 animation_cooldown = 100
@@ -168,7 +170,7 @@ while running:
   new_player_group.draw(screen)
   screen.blit(electricity[current_frame % len(electricity)], (electricity_pos[0], electricity_pos[1]))
 
-  # enemy_group.draw(screen)
+  enemy_group.draw(screen)
   explosion_group.draw(screen)
 
 
