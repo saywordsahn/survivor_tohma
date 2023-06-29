@@ -1,5 +1,6 @@
 import pygame
 from spritesheet import Spritesheet
+from direction import Direction
 
 class Player(pygame.sprite.Sprite):
 
@@ -9,6 +10,7 @@ class Player(pygame.sprite.Sprite):
 
         # load images
         self.idle_image = ss.image_at((0, 0, 64, 64, ))
+        self.idle_image.set_alpha()
         self.flying_image = ss.image_at((64 * 2, 64 * 1, 64, 64 ))
         self.walking_image = ss.image_at((64,64,64,64))
 
@@ -37,15 +39,17 @@ class Player(pygame.sprite.Sprite):
 
         self.using_galaxy_burst = False
         self.current_frame = 0
-
+        self.facing = Direction.RIGHT
 
     def move_left(self):
         self.rect.x -= self.player_speed
         self.electricity_pos[0] -= self.player_speed
+        self.facing = Direction.LEFT
 
     def move_right(self):
         self.rect.x += self.player_speed
         self.electricity_pos[0] += self.player_speed
+        self.facing = Direction.RIGHT
 
     def move_up(self):
         self.rect.y -= self.player_speed
@@ -114,5 +118,9 @@ class Player(pygame.sprite.Sprite):
             self.electricity_last_frame_changed = elapsed_time
 
     def draw(self, screen):
+        if self.facing == Direction.RIGHT:
+            screen.blit(self.image, self.rect)
+        else:
+            screen.blit(pygame.transform.flip(self.image, True, False), self.rect)
         screen.blit(self.electricity_images[self.current_frame % len(self.electricity_images)],
                     (self.electricity_pos[0], self.electricity_pos[1]))

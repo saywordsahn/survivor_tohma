@@ -23,3 +23,7 @@ class Stormhead(pygame.sprite.Sprite):
             self.image = self.images[self.frame_counter % len(self.images)]
             self.last_frame_change = elapsed_time
             self.frame_counter += 1
+
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, (0, 255, 0), self.rect, 1)

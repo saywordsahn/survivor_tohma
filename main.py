@@ -3,6 +3,7 @@ import random
 from spritesheet import Spritesheet
 from explosion import Explosion
 from stormhead import Stormhead
+from direction import Direction
 from player import Player
 
 
@@ -11,9 +12,6 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Survivior')
 FPS = 60
 clock = pygame.time.Clock()
-
-
-
 
 
 
@@ -79,7 +77,13 @@ while running:
 
   # right mouse button pressed
   if player.can_galaxy_burst():
-    explosion = Explosion(lv_images, player.rect.x + 200, player.rect.y)
+    explosion = None
+
+    if player.facing == Direction.RIGHT:
+      explosion = Explosion(lv_images, player.rect.x + 200, player.rect.y)
+    else:
+      explosion = Explosion(lv_images, player.rect.x - 200, player.rect.y)
+
     explosion_group.add(explosion)
 
   ##########################################
@@ -114,10 +118,11 @@ while running:
 
   screen.fill((64, 109, 107))
 
-  player_group.draw(screen)
   player.draw(screen)
 
   enemy_group.draw(screen)
+  for enemy in enemy_group.sprites():
+    enemy.draw(screen)
   explosion_group.draw(screen)
 
 
